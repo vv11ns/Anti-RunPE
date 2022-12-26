@@ -43,7 +43,7 @@ BOOL RWXMemory_Detector(HANDLE hProcess, DWORD dwImageBase) {
     VirtualQueryEx(hProcess, PVOID(dwImageBase), &mbi, sizeof mbi);
     // Выполняем цикл до конца секций
     do {
-        if (mbi.Protect == PAGE_EXECUTE_READWRITE || mbi.Protect == PAGE_EXECUTE_WRITECOPY)
+        if (mbi.Protect & PAGE_EXECUTE_READWRITE || mbi.Protect & PAGE_EXECUTE_WRITECOPY)
             return 1;
         DWORD dwNextSectionAdr = (DWORD)mbi.BaseAddress + mbi.RegionSize;
         VirtualQueryEx(hProcess, PVOID(dwNextSectionAdr), &mbi, sizeof mbi);
